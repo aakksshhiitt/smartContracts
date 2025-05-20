@@ -39,7 +39,7 @@ contract eCommerce{
         require(productList[_productNumber].seller!=msg.sender,"Sorry seller can't but its own product");
         require(msg.value==productList[_productNumber].price,"Please pay the exact price of the product");
         productList[_productNumber].buyer=msg.sender;
-        myProducts[msg.sender].push(productList[_productNumber]);
+        
         emit productBought(_productNumber,msg.sender);  
     }
 
@@ -59,6 +59,7 @@ contract eCommerce{
         require(productList[_productNumber].buyer==msg.sender,"Sorry you are not the buyer of this product");
         require(productList[_productNumber].delivered==false,"Sorry this product is already delivered");
         productList[_productNumber].delivered=true;
+        myProducts[msg.sender].push(productList[_productNumber]);
         payable(productList[_productNumber].seller).transfer(productList[_productNumber].price);
         emit productHasDelivered(_productNumber);
     }
